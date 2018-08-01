@@ -1,0 +1,16 @@
+[
+{
+  "modid": "blockinfoitem",
+  "name": "BlockInfoItem",
+  "description": "Block Info",
+  "version": "${version}",
+  "mcversion": "${mcversion}",
+  "url": "",
+  "updateUrl": "",
+  "authorList": ["takusan_23"],
+  "credits": "",
+  "logoFile": "",
+  "screenshots": [],
+  "dependencies": []
+}
+]

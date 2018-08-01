@@ -1,0 +1,24 @@
+{
+  "display": {
+    "icon": {
+      "item": "blockinfoitem:blockinfoitem"
+    },
+    "title": {
+      "translate": "advancements.blockinfoitem.root.title"
+    },
+    "description": {
+      "translate": "advancements.blockinfoitem.root.desc"
+    },
+    "background": "minecraft:textures/blocks/cobblestone.png",
+    "show_toast": false,
+    "announce_to_chat": false
+  },
+  "criteria": {
+    "has_string": {
+      "trigger": "minecraft:tick"
+     }
+  },
+  "rewards": {
+    "recipes": ["blockinfoitem:blockinfoitem"]
+  }
+}
