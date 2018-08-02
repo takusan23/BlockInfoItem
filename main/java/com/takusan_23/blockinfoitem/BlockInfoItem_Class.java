@@ -25,7 +25,7 @@ public class BlockInfoItem_Class extends Item {
         IBlockState iblockstate = worldIn.getBlockState(pos);
         Block block = iblockstate.getBlock();
 
-        player.playSound(SoundEvents.ENTITY_PLAYER_LEVELUP, 1, 1);
+        player.playSound(SoundEvents.ENTITY_EXPERIENCE_ORB_PICKUP, 1, 1);
 
         //スタート
         if (!worldIn.isRemote) {
@@ -56,36 +56,59 @@ public class BlockInfoItem_Class extends Item {
         //最適ツール
         String blockharvesttool = block.getHarvestTool(iblockstate);
 
-        if (!worldIn.isRemote) {
-            player.sendMessage(new TextComponentString("Tool " + blockharvesttool));
+        if (blockharvesttool == "pickaxe")
+        {
+            if (!worldIn.isRemote) {
+                player.sendMessage(new TextComponentString("Tool Pickaxe"));
+            }
         }
+        if (blockharvesttool == "axe")
+        {
+            if (!worldIn.isRemote) {
+                player.sendMessage(new TextComponentString("Tool Axe"));
+            }
+        }
+        if (blockharvesttool == "shovel")
+        {
+            if (!worldIn.isRemote) {
+                player.sendMessage(new TextComponentString("Tool Shovel"));
+            }
+        }
+
+        else if(blockharvesttool != "pickaxe" &&blockharvesttool != "axe" && blockharvesttool != "shovel")
+        {
+            if (!worldIn.isRemote) {
+                player.sendMessage(new TextComponentString("Tool " + blockharvesttool));
+            }
+        }
+
 
         //ハーベストレベル
         int blockharvestlevel = block.getHarvestLevel(iblockstate);
 
         if (blockharvestlevel == 3) {
             if (!worldIn.isRemote) {
-                player.sendMessage(new TextComponentString("HervestLevel " + "Diamond"));
+                player.sendMessage(new TextComponentString("HervestLevel " + "Obsidian"));
             }
         }
         if (blockharvestlevel == 2) {
             if (!worldIn.isRemote) {
-                player.sendMessage(new TextComponentString("HervestLevel " + "Iron"));
+                player.sendMessage(new TextComponentString("HervestLevel " + "Diamond"));
             }
         }
         if (blockharvestlevel == 1) {
             if (!worldIn.isRemote) {
-                player.sendMessage(new TextComponentString("HervestLevel " + "Stone"));
+                player.sendMessage(new TextComponentString("HervestLevel " + "Iron"));
             }
         }
         if (blockharvestlevel == 0) {
             if (!worldIn.isRemote) {
-                player.sendMessage(new TextComponentString("HervestLevel " + "Wood"));
+                player.sendMessage(new TextComponentString("HervestLevel " + "Stone"));
             }
         }
         if (blockharvestlevel == -1) {
             if (!worldIn.isRemote) {
-                player.sendMessage(new TextComponentString("HervestLevel " + "No Tool"));
+                player.sendMessage(new TextComponentString("HervestLevel " + "Wood"));
             }
         }
 
@@ -113,6 +136,7 @@ public class BlockInfoItem_Class extends Item {
         if (!worldIn.isRemote) {
             player.sendMessage(new TextComponentString("DropItem " + item));
         }
+
 
         //エンチャントパワー
         float enchantpower = block.getEnchantPowerBonus(worldIn,pos);
