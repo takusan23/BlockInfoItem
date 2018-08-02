@@ -2,3 +2,5 @@ item.BlockInfoItem.name=BlockInfoItem
 
 advancements.blockinfoitem.root.title=BlockInfoItem
 advancements.blockinfoitem.root.desc=BlockInfoItem Unlock Recipe
+
+message.blockinfoitem.name=Name

@@ -1,6 +1,7 @@
 package com.takusan_23.blockinfoitem;
 
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockVine;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
@@ -14,6 +15,7 @@ import net.minecraft.util.EnumHand;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentString;
+import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraft.world.World;
 
 public class BlockInfoItem_Class extends Item {
@@ -23,25 +25,28 @@ public class BlockInfoItem_Class extends Item {
         IBlockState iblockstate = worldIn.getBlockState(pos);
         Block block = iblockstate.getBlock();
 
-        player.playSound(SoundEvents.ENTITY_PLAYER_LEVELUP,1,1);
+        player.playSound(SoundEvents.ENTITY_PLAYER_LEVELUP, 1, 1);
 
         //スタート
         if (!worldIn.isRemote) {
             player.sendMessage(new TextComponentString("---------- Block Info ----------"));
-            player.sendMessage(new TextComponentString(""));
+//            player.sendMessage(new TextComponentString(""));
         }
 
 
         //名前
         String blockname = block.getLocalizedName();
+        //メタデータ
+        int blockmetadeta = block.getMetaFromState(iblockstate);
+        String blockmetadeta_string = String.valueOf(blockmetadeta);
 
         if (!worldIn.isRemote) {
-            player.sendMessage(new TextComponentString("Name " + blockname));
+            player.sendMessage(new TextComponentTranslation("Name " + blockname + " / MetaDeta " + blockmetadeta_string));
         }
 
 
         //爆破耐性取得、二行目はfloat→String
-        float blockhardness =  block.getExplosionResistance(player) ;
+        float blockhardness = block.getExplosionResistance(player);
         String blockhardness_word = String.valueOf(blockhardness);
 
         if (!worldIn.isRemote) {
@@ -58,32 +63,27 @@ public class BlockInfoItem_Class extends Item {
         //ハーベストレベル
         int blockharvestlevel = block.getHarvestLevel(iblockstate);
 
-        if (blockharvestlevel == 3)
-        {
+        if (blockharvestlevel == 3) {
             if (!worldIn.isRemote) {
                 player.sendMessage(new TextComponentString("HervestLevel " + "Diamond"));
             }
         }
-        if (blockharvestlevel == 2)
-        {
+        if (blockharvestlevel == 2) {
             if (!worldIn.isRemote) {
                 player.sendMessage(new TextComponentString("HervestLevel " + "Iron"));
             }
         }
-        if (blockharvestlevel == 1)
-        {
+        if (blockharvestlevel == 1) {
             if (!worldIn.isRemote) {
                 player.sendMessage(new TextComponentString("HervestLevel " + "Stone"));
             }
         }
-        if (blockharvestlevel == 0)
-        {
+        if (blockharvestlevel == 0) {
             if (!worldIn.isRemote) {
-                player.sendMessage(new TextComponentString("HervestLevel " + "Tool"));
+                player.sendMessage(new TextComponentString("HervestLevel " + "Wood"));
             }
         }
-        if (blockharvestlevel == -1 )
-        {
+        if (blockharvestlevel == -1) {
             if (!worldIn.isRemote) {
                 player.sendMessage(new TextComponentString("HervestLevel " + "No Tool"));
             }
@@ -91,7 +91,7 @@ public class BlockInfoItem_Class extends Item {
 
 
         //照明？
-        int blocklight = block.getLightValue(iblockstate,worldIn,pos);
+        int blocklight = block.getLightValue(iblockstate, worldIn, pos);
         String blocklight_string = String.valueOf(blocklight);
 
         if (!worldIn.isRemote) {
@@ -99,29 +99,34 @@ public class BlockInfoItem_Class extends Item {
         }
 
 
-
-        //経験値
-        int blockexpdrop_3 = block.getExpDrop(iblockstate,worldIn,pos,3);
-        String blockexpdrop_3_string = String.valueOf(blockexpdrop_3);
-
-        int blockexpdrop_2 = block.getExpDrop(iblockstate,worldIn,pos,2);
-        String blockexpdrop_2_string = String.valueOf(blockexpdrop_2);
-
-        int blockexpdrop_1 = block.getExpDrop(iblockstate,worldIn,pos,1);
-        String blockexpdrop_1_string = String.valueOf(blockexpdrop_1);
-
-        int blockexpdrop_0 = block.getExpDrop(iblockstate,worldIn,pos,0);
-        String blockexpdrop_0_string = String.valueOf(blockexpdrop_0);
+        //クリエタブ
+        String blockcreativetab = block.getCreativeTabToDisplayOn().getTabLabel();
 
         if (!worldIn.isRemote) {
-            player.sendMessage(new TextComponentString("ExpDrop " + "Fortune 3→" +blockexpdrop_3_string + " Fortune 2→" + blockexpdrop_2_string+ " Fortune 1→" + blockexpdrop_1_string+ " Fortune 0→" + blockexpdrop_0_string));
+            player.sendMessage(new TextComponentString("CreativeTab " + blockcreativetab));
+        }
+
+
+        //ドロップアイテム
+        String item = block.getItem(worldIn,pos,iblockstate).getDisplayName();
+
+        if (!worldIn.isRemote) {
+            player.sendMessage(new TextComponentString("DropItem " + item));
+        }
+
+        //エンチャントパワー
+        float enchantpower = block.getEnchantPowerBonus(worldIn,pos);
+        String enchantpower_string = String.valueOf(enchantpower);
+
+        if (!worldIn.isRemote) {
+            player.sendMessage(new TextComponentString("EnchantPower " + enchantpower_string));
         }
 
 
         //目印に
         if (!worldIn.isRemote) {
-            player.sendMessage(new TextComponentString(""));
-            player.sendMessage(new TextComponentString("---------- Last ----------"));
+//            player.sendMessage(new TextComponentString(""));
+            player.sendMessage(new TextComponentString("------------ Last ------------"));
         }
 
         return EnumActionResult.SUCCESS;

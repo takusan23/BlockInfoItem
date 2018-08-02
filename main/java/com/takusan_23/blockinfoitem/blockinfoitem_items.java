@@ -14,7 +14,7 @@ public class blockinfoitem_items {
     public static Item BlockInfoItem;
 
     public static void init() {
-        BlockInfoItem = new BlockInfoItem_Class().setUnlocalizedName("BlockInfoItem").setCreativeTab(CreativeTabs.TOOLS);
+        BlockInfoItem = new BlockInfoItem_Class().setUnlocalizedName("BlockInfoItem").setCreativeTab(CreativeTabs.TOOLS).setMaxStackSize(1);
     }
 
     public static void register() {
