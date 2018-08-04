@@ -13,6 +13,7 @@ import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
         version = blockinfoitem.MOD_VERSION,
         dependencies = blockinfoitem.MOD_DEPENDENCIES,
         acceptedMinecraftVersions = blockinfoitem.MOD_ACCEPTED_MC_VERSIONS,
+        updateJSON ="https://raw.githubusercontent.com/takusan23/BlockInfoItem/master/update_json/BlockInfoItemVersionUpdate.json",
         useMetadata = true)
 
 @Mod.EventBusSubscriber
