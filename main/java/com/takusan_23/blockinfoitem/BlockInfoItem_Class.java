@@ -9,10 +9,7 @@ import net.minecraft.init.SoundEvents;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.EnumActionResult;
-import net.minecraft.util.EnumFacing;
-import net.minecraft.util.EnumHand;
-import net.minecraft.util.SoundEvent;
+import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.util.text.TextComponentTranslation;
@@ -25,7 +22,8 @@ public class BlockInfoItem_Class extends Item {
         IBlockState iblockstate = worldIn.getBlockState(pos);
         Block block = iblockstate.getBlock();
 
-        player.playSound(SoundEvents.ENTITY_EXPERIENCE_ORB_PICKUP, 1, 1);
+        //player.playSound(SoundEvents.ENTITY_EXPERIENCE_ORB_PICKUP, 1, 1);
+
 
         //スタート
         if (!worldIn.isRemote) {
@@ -44,6 +42,12 @@ public class BlockInfoItem_Class extends Item {
             player.sendMessage(new TextComponentTranslation("Name " + blockname + " / MetaDeta " + blockmetadeta_string));
         }
 
+        //MOD id取得
+        String blockregistryname = block.getRegistryName().getResourceDomain();
+        if (!worldIn.isRemote) {
+            player.sendMessage(new TextComponentString("MOD ID " + blockregistryname));
+        }
+
 
         //爆破耐性取得、二行目はfloat→String
         float blockhardness = block.getExplosionResistance(player);
@@ -56,27 +60,21 @@ public class BlockInfoItem_Class extends Item {
         //最適ツール
         String blockharvesttool = block.getHarvestTool(iblockstate);
 
-        if (blockharvesttool == "pickaxe")
-        {
+        if (blockharvesttool == "pickaxe") {
             if (!worldIn.isRemote) {
                 player.sendMessage(new TextComponentString("Tool Pickaxe"));
             }
         }
-        if (blockharvesttool == "axe")
-        {
+        if (blockharvesttool == "axe") {
             if (!worldIn.isRemote) {
                 player.sendMessage(new TextComponentString("Tool Axe"));
             }
         }
-        if (blockharvesttool == "shovel")
-        {
+        if (blockharvesttool == "shovel") {
             if (!worldIn.isRemote) {
                 player.sendMessage(new TextComponentString("Tool Shovel"));
             }
-        }
-
-        else if(blockharvesttool != "pickaxe" &&blockharvesttool != "axe" && blockharvesttool != "shovel")
-        {
+        } else if (blockharvesttool != "pickaxe" && blockharvesttool != "axe" && blockharvesttool != "shovel") {
             if (!worldIn.isRemote) {
                 player.sendMessage(new TextComponentString("Tool " + blockharvesttool));
             }
@@ -122,22 +120,30 @@ public class BlockInfoItem_Class extends Item {
         }
 
 
-        //クリエタブ
-        String blockcreativetab = block.getCreativeTabToDisplayOn().getTabLabel();
-
-        if (!worldIn.isRemote) {
-            player.sendMessage(new TextComponentString("CreativeTab " + blockcreativetab));
-        }
-
-
         //ドロップアイテム
-        String item = block.getItem(worldIn,pos,iblockstate).getDisplayName();
+        String item = block.getItem(worldIn, pos, iblockstate).getDisplayName();
 
         if (!worldIn.isRemote) {
             player.sendMessage(new TextComponentString("DropItem " + item));
         }
 
 
+        //クリエタブ
+        //クリエイティブタブが設定されてないとエラーが出てクラッシュするのでここだけ特殊
+        try {
+            String blockcreativetab = block.getCreativeTabToDisplayOn().getTabLabel();
+
+            if (!worldIn.isRemote) {
+                player.sendMessage(new TextComponentString("CreativeTab " + blockcreativetab));
+            }
+        } catch (NullPointerException n) {
+            if (!worldIn.isRemote) {
+//              player.sendMessage(new TextComponentString(""));
+                player.sendMessage(new TextComponentString("CreativeTab " + n));
+            }
+        }
+
+/*
         //エンチャントパワー
         float enchantpower = block.getEnchantPowerBonus(worldIn,pos);
         String enchantpower_string = String.valueOf(enchantpower);
@@ -145,6 +151,7 @@ public class BlockInfoItem_Class extends Item {
         if (!worldIn.isRemote) {
             player.sendMessage(new TextComponentString("EnchantPower " + enchantpower_string));
         }
+*/
 
 
         //目印に
